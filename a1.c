@@ -4,12 +4,8 @@
 Assignment 1 - Linked List Questions
 Purpose: Implementing the required functions for Question 2 */
 
-//////////////////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <stdlib.h>
-
-//////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _listnode
 {
@@ -24,9 +20,6 @@ typedef struct _linkedlist
 } LinkedList;			// You should not change the definition of LinkedList
 
 
-//////////////////////// function prototypes /////////////////////////////////////
-
-// You should not change the prototype of this function
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2);
 
 void printList(LinkedList *ll);
@@ -35,8 +28,6 @@ ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
-
-//////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
@@ -268,12 +259,8 @@ int removeNode(LinkedList *ll, int index){
 Assignment 1 - Linked List Questions
 Purpose: Implementing the required functions for Question 4 */
 
-//////////////////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <stdlib.h>
-
-//////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _listnode{
 	int item;
@@ -286,9 +273,6 @@ typedef struct _linkedlist{
 } LinkedList;			// You should not change the definition of LinkedList
 
 
-///////////////////////// function prototypes ////////////////////////////////////
-
-// This is for question 4. You should not change the prototype of this function
 void frontBackSplitLinkedList(LinkedList* ll, LinkedList *resultFrontList, LinkedList *resultBackList);
 
 // You may use the following functions or you may write your own
@@ -298,8 +282,6 @@ ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
-
-///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
 {
@@ -397,7 +379,6 @@ void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, Linke
 			cur=cur->next;
 			pre=pre->next;
 		}
-
 	}
 	else{
 		for(i=0;i<n;i++){
@@ -405,15 +386,9 @@ void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, Linke
 			pre=pre->next;
 		}
 	}
-
 	resultBackList->head=cur;
 	pre->next=NULL;
 	resultFrontList->head=ll->head;
-
-
-
-
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -544,12 +519,8 @@ int removeNode(LinkedList *ll, int index)
 Assignment 1 - Linked List Questions
 Purpose: Implementing the required functions for Question 3 */
 
-//////////////////////////////////////////////////////////////////////////////////
-
 #include <stdio.h>
 #include <stdlib.h>
-
-//////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _listnode
 {
@@ -564,9 +535,6 @@ typedef struct _linkedlist
 } LinkedList;			// You should not change the definition of LinkedList
 
 
-//////////////////////// function prototypes /////////////////////////////////////
-
-// You should not change the prototype of this function
 void moveOddItemsToBack(LinkedList *ll);
 
 void printList(LinkedList *ll);
@@ -574,8 +542,6 @@ void removeAllItems(LinkedList *ll);
 ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
-
-//////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
@@ -640,7 +606,6 @@ void moveOddItemsToBack(LinkedList *ll)
 		if(data%2==1){
 			insertNode(ll,ll->size,data);
 			removeNode(ll,index);
-
 		}
 		else
 			index++;
@@ -775,11 +740,8 @@ int removeNode(LinkedList *ll, int index){
 
 // --------------------------------------------------------------------------------
 
-
 #include <stdio.h>
 #include <stdlib.h>
-
-//////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _listnode{
 	int item;
@@ -792,9 +754,6 @@ typedef struct _linkedlist{
 } LinkedList;			// You should not change the definition of LinkedList
 
 
-///////////////////////// function prototypes ////////////////////////////////////
-
-//You should not change the prototype of this function
 int insertSortedLL(LinkedList *ll, int item);
 
 void printList(LinkedList *ll);
@@ -803,8 +762,6 @@ ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
-
-//////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
