@@ -356,41 +356,45 @@ void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
+	int i,index,n;
+	ListNode *temp=ll->head;
 	resultFrontList->head=NULL;
 	resultBackList->head=NULL;
-
-	int index=0,n,i;
-	ListNode *pre=ll->head, *cur=ll->head->next;
 
 	n=(ll->size)/2;
 
 	//if empty list
 	if(ll->size==0)
 		return;
-	//if size==1
-	if(ll->size==1){
-		resultFrontList->head=ll->head;
-		return;
-	}
 
-	//if even elements, then i want cur to be the first element of the back list
+	//if even elements
 	if((ll->size)%2==0){
-		for(i=0;i<n-1;i++){
-			cur=cur->next;
-			pre=pre->next;
-		}
-	}
-	else{
+		index=0;
 		for(i=0;i<n;i++){
-			cur=cur->next;
-			pre=pre->next;
+			insertNode(resultFrontList,i,temp->item);
+			index++;
+			temp=temp->next;
+		}
+		for(i=0;i<n;i++){
+			insertNode(resultBackList,i,temp->item);
+			index++;
+			temp=temp->next;
 		}
 	}
-	resultBackList->head=cur;
-	pre->next=NULL;
-	resultFrontList->head=ll->head;
-}
 
+	//if odd elements
+	else{
+		index=0;
+		for(i=0;i<=n;i++){
+			insertNode(resultFrontList,i,temp->item);
+			temp=temp->next;
+		}
+		for(i=0;i<n;i++){
+			insertNode(resultBackList,i,temp->item);
+			temp=temp->next;
+		}
+	}
+}
 //////////////////////////////////////////////////////////////////////////////////
 
 // void printList(LinkedList *ll)
