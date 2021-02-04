@@ -99,25 +99,25 @@
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// void reverseStack(Stack *s)
-// {
-// 	int i,data,len=s->ll.size;
-// 	Queue q;
-// 	q.ll.head=NULL;
-// 	q.ll.tail=NULL;
-// 	q.ll.size=0;
+void reverseStack(Stack *s)
+{
+	int i,data,len=s->ll.size;
+	Queue q;
+	q.ll.head=NULL;
+	q.ll.tail=NULL;
+	q.ll.size=0;
 
-// 	for(i=0;i<len;i++){
-// 		data=pop(s);
-// 		enqueue(&q,data);
-// 	}
-// 	for(i=0;i<len;i++){
-// 		data=dequeue(&q);
-// 		push(s,data);
-// 	}
-// }
+	for(i=0;i<len;i++){
+		data=pop(s);
+		enqueue(&q,data);
+	}
+	for(i=0;i<len;i++){
+		data=dequeue(&q);
+		push(s,data);
+	}
+}
 
-//of instead of for loop, can do while(!isEmptyStack(s))
+of instead of for loop, can do while(!isEmptyStack(s))
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -394,66 +394,66 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// void reverseFirstKItems(Queue *q, int k)
-// {
-// 	int i,data;
-// 	int len=q->ll.size;
-// 	// int diff=len-k;
+void reverseFirstKItems(Queue *q, int k)
+{
+	int i,data;
+	int len=q->ll.size;
+	// int diff=len-k;
 
-// 	// int same[20];
+	// int same[20];
 
-// 	Stack s;
-// 	s.ll.head=NULL;
-// 	s.ll.tail=NULL;
-// 	s.ll.size=0;
+	Stack s;
+	s.ll.head=NULL;
+	s.ll.tail=NULL;
+	s.ll.size=0;
 
 
 
-// 	//if invalid k
-// 	if(k>len || k<0){
-// 		printf("You inputed an invalid k. The size of your list is %d. Please try again.\n",q->ll.size);
-// 		return;
-// 	}
+	//if invalid k
+	if(k>len || k<0){
+		printf("You inputed an invalid k. The size of your list is %d. Please try again.\n",q->ll.size);
+		return;
+	}
 
-// 	//if empty list or one element list, of when k==0
-// 	if(isEmptyQueue(q) || len==1 || k<=1)
-// 		return;
+	//if empty list or one element list, of when k==0
+	if(isEmptyQueue(q) || len==1 || k<=1)
+		return;
 
-// 	//note: when k=1, it refers to the first element, ie index=0
+	//note: when k=1, it refers to the first element, ie index=0
 
-// 	//to put into a stack so first element out was the last element
-// 	for (i=0;i<k;i++){
-// 		data=dequeue(q);
-// 		push(&s,data);
-// 	}
+	//to put into a stack so first element out was the last element
+	for (i=0;i<k;i++){
+		data=dequeue(q);
+		push(&s,data);
+	}
 
-// 	// if(k<len){
-// 	// 	for(i=0;i<(len-k);i++){
-// 	// 		same[i]=dequeue(q);
-// 	// 	}
-// 	// }
+	// if(k<len){
+	// 	for(i=0;i<(len-k);i++){
+	// 		same[i]=dequeue(q);
+	// 	}
+	// }
 
-// 	//to put back in a queue so that first element in was the last
-// 	for(i=0;i<k;i++){
-// 		data=pop(&s);
-// 		enqueue(q,data);
-// 	}
+	//to put back in a queue so that first element in was the last
+	for(i=0;i<k;i++){
+		data=pop(&s);
+		enqueue(q,data);
+	}
 
-// 	// if(k<len){
-// 	// 	for(i=0;i<(len-k);i++){
-// 	// 		enqueue(q,same[i]);
-// 	// 	}
-// 	// }
+	// if(k<len){
+	// 	for(i=0;i<(len-k);i++){
+	// 		enqueue(q,same[i]);
+	// 	}
+	// }
 
-// 	//instead of making arrays and all de bs, just dequeue and enqueue
-// 	if(k<len){
-// 		for(i=0;i<(len-k);i++){
-// 			enqueue(q,dequeue(q));
-// 		}
-// 	}
+	//instead of making arrays and all de bs, just dequeue and enqueue
+	if(k<len){
+		for(i=0;i<(len-k);i++){
+			enqueue(q,dequeue(q));
+		}
+	}
 
-// }
-
+}
+//those commented were my original mthds, but not good coz i had to create an array but i didnt know what size
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -624,99 +624,99 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <limits.h>
 
 
-typedef struct _listnode{
-  int item;
-  struct _listnode *next;
-} ListNode;
+// typedef struct _listnode{
+//   int item;
+//   struct _listnode *next;
+// } ListNode;
 
-typedef struct _linkedlist{
-  int size;
-  ListNode *head;
-  ListNode *tail;
-} LinkedList;
-
-
-typedef struct stack{
-	LinkedList ll;
-} Stack;
+// typedef struct _linkedlist{
+//   int size;
+//   ListNode *head;
+//   ListNode *tail;
+// } LinkedList;
 
 
-typedef struct _queue{
-	LinkedList ll;
-} Queue;
+// typedef struct stack{
+// 	LinkedList ll;
+// } Stack;
 
 
-// You should not change the prototypes of these functions
-void sortStack(Stack *s);
-
-void push(Stack *s, int item);
-int pop(Stack *s);
-int peek(Stack *s);
-int isEmptyStack(Stack *s);
-
-void printList(LinkedList *ll);
-ListNode * findNode(LinkedList *ll, int index);
-int insertNode(LinkedList *ll, int index, int value);
-int removeNode(LinkedList *ll, int index);
-void removeAllItems(LinkedList *ll);
+// typedef struct _queue{
+// 	LinkedList ll;
+// } Queue;
 
 
+// // You should not change the prototypes of these functions
+// void sortStack(Stack *s);
 
-int main()
-{
-    int c, value;
+// void push(Stack *s, int item);
+// int pop(Stack *s);
+// int peek(Stack *s);
+// int isEmptyStack(Stack *s);
 
-    Stack s;
+// void printList(LinkedList *ll);
+// ListNode * findNode(LinkedList *ll, int index);
+// int insertNode(LinkedList *ll, int index, int value);
+// int removeNode(LinkedList *ll, int index);
+// void removeAllItems(LinkedList *ll);
 
-    //initialize the stack
-	s.ll.head =NULL;
-	s.ll.size =0;
 
 
-    c =1;
+// int main()
+// {
+//     int c, value;
 
-    printf("1: Insert an integer into the stack;\n");
-    printf("2: Sort the stack in ascending order ;\n");
-    printf("0: Quit;\n");
+//     Stack s;
 
-    while (c != 0)
-	{
-		printf("Please input your choice(1/2/0): ");
-		scanf("%d", &c);
+//     //initialize the stack
+// 	s.ll.head =NULL;
+// 	s.ll.size =0;
 
-		switch (c)
-		{
-		case 1:
-			printf("Input an integer that you want to insert into the stack: ");
-			scanf("%d", &value);
-			push(&s, value);
-			printf("The resulting stack is: ");
-			printList(&(s.ll));
-			break;
-		case 2:
-			sortStack(&s); // You need to code this function
-			printf("The resulting stack after sorting it in ascending order is: ");
-			printList(&(s.ll));
-			removeAllItems(&(s.ll));
-			break;
-		case 0:
-			removeAllItems(&(s.ll));
-			break;
-		default:
-			printf("Choice unknown;\n");
-			break;
-		}
-	}
 
-    return 0;
-}
+//     c =1;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+//     printf("1: Insert an integer into the stack;\n");
+//     printf("2: Sort the stack in ascending order ;\n");
+//     printf("0: Quit;\n");
+
+//     while (c != 0)
+// 	{
+// 		printf("Please input your choice(1/2/0): ");
+// 		scanf("%d", &c);
+
+// 		switch (c)
+// 		{
+// 		case 1:
+// 			printf("Input an integer that you want to insert into the stack: ");
+// 			scanf("%d", &value);
+// 			push(&s, value);
+// 			printf("The resulting stack is: ");
+// 			printList(&(s.ll));
+// 			break;
+// 		case 2:
+// 			sortStack(&s); // You need to code this function
+// 			printf("The resulting stack after sorting it in ascending order is: ");
+// 			printList(&(s.ll));
+// 			removeAllItems(&(s.ll));
+// 			break;
+// 		case 0:
+// 			removeAllItems(&(s.ll));
+// 			break;
+// 		default:
+// 			printf("Choice unknown;\n");
+// 			break;
+// 		}
+// 	}
+
+//     return 0;
+// }
+
+// ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Hint: want to make stack s always sorted, so first try all but the last element to temp stack ts
 
@@ -754,151 +754,151 @@ void sortStack(Stack *s)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void push(Stack *s, int item){
-  insertNode(&(s->ll), 0, item);
-}
+// void push(Stack *s, int item){
+//   insertNode(&(s->ll), 0, item);
+// }
 
-int pop(Stack *s){
-  int item;
-  if(!isEmptyStack(s)){
-    item = ((s->ll).head)->item;
-    removeNode(&(s->ll), 0);
-    return item;
-  }
-    return INT_MIN;
-}
+// int pop(Stack *s){
+//   int item;
+//   if(!isEmptyStack(s)){
+//     item = ((s->ll).head)->item;
+//     removeNode(&(s->ll), 0);
+//     return item;
+//   }
+//     return INT_MIN;
+// }
 
-int peek(Stack *s){
-  return ((s->ll).head)->item;
-}
+// int peek(Stack *s){
+//   return ((s->ll).head)->item;
+// }
 
-int isEmptyStack(Stack *s){
-  if ((s->ll).size == 0)
-      return 1;
-  return 0;
-}
-
-
-void printList(LinkedList *ll){
-
-	ListNode *cur;
-	if (ll == NULL)
-		return;
-	cur = ll->head;
-
-	if (cur == NULL)
-		printf("Empty");
-	while (cur != NULL)
-	{
-		printf("%d ", cur->item);
-		cur = cur->next;
-	}
-	printf("\n");
-}
-
-ListNode * findNode(LinkedList *ll, int index){
-
-	ListNode *temp;
-
-	if (ll == NULL || index < 0 || index >= ll->size)
-		return NULL;
-
-	temp = ll->head;
-
-	if (temp == NULL || index < 0)
-		return NULL;
-
-	while (index > 0){
-		temp = temp->next;
-		if (temp == NULL)
-			return NULL;
-		index--;
-	}
-
-	return temp;
-}
-
-int insertNode(LinkedList *ll, int index, int value){
-
-	ListNode *pre, *cur;
-
-	if (ll == NULL || index < 0 || index > ll->size + 1)
-		return -1;
-
-	// If empty list or inserting first node, need to update head pointer
-	if (ll->head == NULL || index == 0){
-		cur = ll->head;
-		ll->head = malloc(sizeof(ListNode));
-		ll->head->item = value;
-		ll->head->next = cur;
-		ll->size++;
-		return 0;
-	}
+// int isEmptyStack(Stack *s){
+//   if ((s->ll).size == 0)
+//       return 1;
+//   return 0;
+// }
 
 
-	// Find the nodes before and at the target position
-	// Create a new node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
-		cur = pre->next;
-		pre->next = malloc(sizeof(ListNode));
-		pre->next->item = value;
-		pre->next->next = cur;
-		ll->size++;
-		return 0;
-	}
+// void printList(LinkedList *ll){
 
-	return -1;
-}
+// 	ListNode *cur;
+// 	if (ll == NULL)
+// 		return;
+// 	cur = ll->head;
+
+// 	if (cur == NULL)
+// 		printf("Empty");
+// 	while (cur != NULL)
+// 	{
+// 		printf("%d ", cur->item);
+// 		cur = cur->next;
+// 	}
+// 	printf("\n");
+// }
+
+// ListNode * findNode(LinkedList *ll, int index){
+
+// 	ListNode *temp;
+
+// 	if (ll == NULL || index < 0 || index >= ll->size)
+// 		return NULL;
+
+// 	temp = ll->head;
+
+// 	if (temp == NULL || index < 0)
+// 		return NULL;
+
+// 	while (index > 0){
+// 		temp = temp->next;
+// 		if (temp == NULL)
+// 			return NULL;
+// 		index--;
+// 	}
+
+// 	return temp;
+// }
+
+// int insertNode(LinkedList *ll, int index, int value){
+
+// 	ListNode *pre, *cur;
+
+// 	if (ll == NULL || index < 0 || index > ll->size + 1)
+// 		return -1;
+
+// 	// If empty list or inserting first node, need to update head pointer
+// 	if (ll->head == NULL || index == 0){
+// 		cur = ll->head;
+// 		ll->head = malloc(sizeof(ListNode));
+// 		ll->head->item = value;
+// 		ll->head->next = cur;
+// 		ll->size++;
+// 		return 0;
+// 	}
 
 
-int removeNode(LinkedList *ll, int index){
+// 	// Find the nodes before and at the target position
+// 	// Create a new node and reconnect the links
+// 	if ((pre = findNode(ll, index - 1)) != NULL){
+// 		cur = pre->next;
+// 		pre->next = malloc(sizeof(ListNode));
+// 		pre->next->item = value;
+// 		pre->next->next = cur;
+// 		ll->size++;
+// 		return 0;
+// 	}
 
-	ListNode *pre, *cur;
+// 	return -1;
+// }
 
-	// Highest index we can remove is size-1
-	if (ll == NULL || index < 0 || index >= ll->size)
-		return -1;
 
-	// If removing first node, need to update head pointer
-	if (index == 0){
-		cur = ll->head->next;
-		free(ll->head);
-		ll->head = cur;
-		ll->size--;
+// int removeNode(LinkedList *ll, int index){
 
-		return 0;
-	}
+// 	ListNode *pre, *cur;
 
-	// Find the nodes before and after the target position
-	// Free the target node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+// 	// Highest index we can remove is size-1
+// 	if (ll == NULL || index < 0 || index >= ll->size)
+// 		return -1;
 
-		if (pre->next == NULL)
-			return -1;
+// 	// If removing first node, need to update head pointer
+// 	if (index == 0){
+// 		cur = ll->head->next;
+// 		free(ll->head);
+// 		ll->head = cur;
+// 		ll->size--;
 
-		cur = pre->next;
-		pre->next = cur->next;
-		free(cur);
-		ll->size--;
-		return 0;
-	}
+// 		return 0;
+// 	}
 
-	return -1;
-}
+// 	// Find the nodes before and after the target position
+// 	// Free the target node and reconnect the links
+// 	if ((pre = findNode(ll, index - 1)) != NULL){
 
-void removeAllItems(LinkedList *ll)
-{
-	ListNode *cur = ll->head;
-	ListNode *tmp;
+// 		if (pre->next == NULL)
+// 			return -1;
 
-	while (cur != NULL){
-		tmp = cur->next;
-		free(cur);
-		cur = tmp;
-	}
-	ll->head = NULL;
-	ll->size = 0;
-}
+// 		cur = pre->next;
+// 		pre->next = cur->next;
+// 		free(cur);
+// 		ll->size--;
+// 		return 0;
+// 	}
+
+// 	return -1;
+// }
+
+// void removeAllItems(LinkedList *ll)
+// {
+// 	ListNode *cur = ll->head;
+// 	ListNode *tmp;
+
+// 	while (cur != NULL){
+// 		tmp = cur->next;
+// 		free(cur);
+// 		cur = tmp;
+// 	}
+// 	ll->head = NULL;
+// 	ll->size = 0;
+// }
 
 
 
