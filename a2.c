@@ -110,37 +110,37 @@
 
 // //////////////////////////////////////////////////////////////////////////////////
 
-// void createQueueFromLinkedList(LinkedList *ll, Queue *q)
-// {
-// 	int count=0;
-// 	ListNode *temp;
+void createQueueFromLinkedList(LinkedList *ll, Queue *q)
+{
+	int count=0;
+	ListNode *temp;
 
-// 	removeAllItemsFromQueue(q);
-// 	(q->ll).head=NULL;
-// 	(q->ll).size=0;
+	removeAllItemsFromQueue(q);
+	(q->ll).head=NULL;
+	(q->ll).size=0;
 
-// 	for(int i=0; i<ll->size; i++){
-// 		temp=findNode(ll,i);
-// 		enqueue(q,temp->item);
+	for(int i=0; i<ll->size; i++){
+		temp=findNode(ll,i);
+		enqueue(q,temp->item);
 
-// 	}
+	}
 
-// }
+}
 
-// void removeOddValues(Queue *q)
-// {
-// 	int i,data,len;
+void removeOddValues(Queue *q)
+{
+	int i,data,len;
 
-// 	len=(q->ll).size; //IMPT is not size will keep changing coz u dequeue and enqueue ur queue
+	len=(q->ll).size; //IMPT is not size will keep changing coz u dequeue and enqueue ur queue
 
-// 	for(i=0;i<len;i++){
-// 		data=dequeue(q);
-// 		if(data%2==0){
-// 			enqueue(q,data);
-// 		}
-// 	}
+	for(i=0;i<len;i++){
+		data=dequeue(q);
+		if(data%2==0){
+			enqueue(q,data);
+		}
+	}
 
-// }
+}
 
 // //////////////////////////////////////////////////////////////////////////////////
 
@@ -420,43 +420,43 @@
 
 // //////////////////////////////////////////////////////////////////////////////////
 
-// void createStackFromLinkedList(LinkedList *ll, Stack *s)
-// {
-// 	int i;
-// 	ListNode *temp;
+void createStackFromLinkedList(LinkedList *ll, Stack *s)
+{
+	int i;
+	ListNode *temp;
 
-// 	removeAllItemsFromStack(s);
-// 	(s->ll).head=NULL;
-// 	(s->ll).size=0;
+	removeAllItemsFromStack(s);
+	(s->ll).head=NULL;
+	(s->ll).size=0;
 
-// 	for(i=0;i<ll->size;i++){
-// 		temp=findNode(ll,i);
-// 		push(s,temp->item);
-// 	}
+	for(i=0;i<ll->size;i++){
+		temp=findNode(ll,i);
+		push(s,temp->item);
+	}
 
-// }
+}
 
-// void removeEvenValues(Stack *s)
-// {
-// 	int i, data,lenS,lenT;
-// 	lenS=(s->ll).size;
+void removeEvenValues(Stack *s)
+{
+	int i, data,lenS,lenT;
+	lenS=(s->ll).size;
 
-// 	Stack temp;
-// 	temp.ll.head=NULL;
-// 	temp.ll.size=0;
+	Stack temp;
+	temp.ll.head=NULL;
+	temp.ll.size=0;
 
-// 	for(i=0;i<lenS;i++){
-// 		data=pop(s);
-// 		if(data%2==1)
-// 			push(&temp,data);
-// 	}
+	for(i=0;i<lenS;i++){
+		data=pop(s);
+		if(data%2==1)
+			push(&temp,data);
+	}
 
-// 	lenT=temp.ll.size;
-// 	for(i=0;i<lenT;i++){
-// 		push(s,pop(&temp));
-// 	}
+	lenT=temp.ll.size;
+	for(i=0;i<lenT;i++){
+		push(s,pop(&temp));
+	}
 
-// }
+}
 
 // //////////////////////////////////////////////////////////////////////////////////
 
@@ -732,26 +732,26 @@
 
 // /////////////////////////////////////////////////////////////////////////////////
 
-// int isStackPairwiseConsecutive(Stack *s)
-// {
-// 	int i,len,a,b;
-// 	len=(s->ll).size;
+int isStackPairwiseConsecutive(Stack *s)
+{
+	int i,len,a,b;
+	len=(s->ll).size;
 
-// 	if(len==0)
-// 		return 0;
+	if(len==0)
+		return 0;
 
-// 	if(len%2==1)
-// 		return 0;
+	if(len%2==1)
+		return 0;
 
-// 	while(!isEmptyStack(s)){
-// 		a=pop(s);
-// 		b=pop(s);
+	while(!isEmptyStack(s)){
+		a=pop(s);
+		b=pop(s);
 
-// 		if(a-b!=1 && a-b!=-1)
-// 			return 0;
-// 	}
-// 		return 1;
-// }
+		if(a-b!=1 && a-b!=-1)
+			return 0;
+	}
+		return 1;
+}
 
 // //////////////////////////////////////////////////////////////////////////////////
 
@@ -1014,21 +1014,21 @@
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-// void reverse(Queue *q)
-// {
-// 	Stack s;
-// 	s.ll.head=NULL;
-// 	s.ll.tail=NULL;
-// 	s.ll.size=0;
+void reverse(Queue *q)
+{
+	Stack s;
+	s.ll.head=NULL;
+	s.ll.tail=NULL;
+	s.ll.size=0;
 
-// 	while (!isEmptyQueue(q)){
-// 		push(&s,dequeue(q));
-// 	}
+	while (!isEmptyQueue(q)){
+		push(&s,dequeue(q));
+	}
 
-// 	while(!isEmptyStack(&s)){
-// 		enqueue(q,pop(&s));
-// 	}
-// }
+	while(!isEmptyStack(&s)){
+		enqueue(q,pop(&s));
+	}
+}
 
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 
