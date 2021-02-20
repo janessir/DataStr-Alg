@@ -85,46 +85,46 @@
 
 // //////////////////////////////////////////////////////////////////////////////////
 
-// // iterative not recursive fn!!
-// void levelOrderTraversal(BSTNode* root)
-// {
-//     Queue q;
-//     q.head=NULL;
-//     q.tail=NULL;
+// iterative not recursive fn!!
+void levelOrderTraversal(BSTNode* root)
+{
+    Queue q;
+    q.head=NULL;
+    q.tail=NULL;
 
-//     int data;
+    int data;
 
-// 	//if not nodes in tree
-// 	if (root==NULL){
-// 		printf("Tree is empty!\n");
-// 		return;
-// 	}
+	//if not nodes in tree
+	if (root==NULL){
+		printf("Tree is empty!\n");
+		return;
+	}
 
-// 	//if only 1 root in the tree
-// 	if(root->left==NULL && root->right==NULL){
-// 		printf("%d\n",root->item);
-// 		return;
-// 	}
+	//if only 1 root in the tree
+	if(root->left==NULL && root->right==NULL){
+		printf("%d\n",root->item);
+		return;
+	}
 
-// 	//enqueue first node
-// 	enqueue(&q.head,&q.tail,root);
+	//enqueue first node
+	enqueue(&q.head,&q.tail,root);
 
-// 	while(!isEmpty(q.head)){
+	while(!isEmpty(q.head)){
 
-// 		//enqueue children if right/left child of the first node in the queue
-// 		if(((q.head)->data)->left != NULL){
-// 			enqueue(&q.head,&q.tail,((q.head)->data)->left);
-// 		}
-// 		if(((q.head)->data)->right !=NULL){
-// 			enqueue(&q.head,&q.tail,((q.head)->data)->right);
-// 		}
+		//enqueue children if right/left child of the first node in the queue
+		if(((q.head)->data)->left != NULL){
+			enqueue(&q.head,&q.tail,((q.head)->data)->left);
+		}
+		if(((q.head)->data)->right !=NULL){
+			enqueue(&q.head,&q.tail,((q.head)->data)->right);
+		}
 
-// 		printf("%d ",dequeue(&q.head,&q.tail)->item);
+		printf("%d ",dequeue(&q.head,&q.tail)->item);
 
-// 	}
+	}
 
-// 	printf("\n");
-// }
+	printf("\n");
+}
 
 
 
