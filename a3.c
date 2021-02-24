@@ -556,6 +556,8 @@ int maxHeight(BTNode *node)
 int countOneChildNodes(BTNode *node)
 
 {
+    int lcount, rcount, count=0;
+    
     //empty tree
     if(node==NULL)
         return 0;
@@ -563,12 +565,15 @@ int countOneChildNodes(BTNode *node)
     //leaf node
     if(node->left==NULL && node->right==NULL)
         return 0;
-
+    
     //one child
     if((node->left!=NULL && node->right==NULL) || (node->left==NULL && node->right!=NULL))
-        return 1;
+        count++;
+        
+    count+=countOneChildNodes(node->left);
+    count+=countOneChildNodes(node->right);
 
-    return countOneChildNodes(node->left) + countOneChildNodes(node->right);
+    return count;
 }
 
 // ///////////////////////////////////////////////////////////////////////////////////
