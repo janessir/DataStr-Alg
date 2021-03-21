@@ -42,79 +42,79 @@
 //     return 0;
 // }
 
-// void in2Post(char* infix, char* postfix)
-// {
-//     Stack s;
-//     s.head=NULL;
-//     s.size=0;
+void in2Post(char* infix, char* postfix)
+{
+    Stack s;
+    s.head=NULL;
+    s.size=0;
 
-//     int i, len=strlen(infix)-1;
+    int i, len=strlen(infix)-1;
 
-//     for (i=0; i<len; i++){
+    for (i=0; i<len; i++){
 
-//         //if operand eg a,b,c etc
-//         if (isalnum(*infix)){
-//             *postfix=*infix;
-//             postfix++;
-//         }
+        //if operand eg a,b,c etc
+        if (isalnum(*infix)){
+            *postfix=*infix;
+            postfix++;
+        }
 
-//         //if ')'
-//         else if (*infix == ')'){
-//             while (peek(s)!='('){
-//                 *postfix=peek(s);
-//                 pop(&s);
-//                 postfix++;
-//             }
-//             pop(&s);
-//         }
-//         //987-654-/3+*+
+        //if ')'
+        else if (*infix == ')'){
+            while (peek(s)!='('){
+                *postfix=peek(s);
+                pop(&s);
+                postfix++;
+            }
+            pop(&s);
+        }
+        //987-654-/3+*+
 
-//         //if '('
-//         else if (*infix == '(')
-//             push(&s,*infix);
+        //if '('
+        else if (*infix == '(')
+            push(&s,*infix);
 
-//         //if is operator ie '+', '-', '*', '/'
-//         else{
-//             //while instead of if bcoz wanna pop out all those that are more than or eq precedence to *infix (ie wanna ev all of them first, eg inside stack have *,+, and *infix=='+')
-//             while(!isEmptyStack(s) && lowerEqPrec(*infix,peek(s))){
-//                 *postfix=peek(s);
-//                 pop(&s);
-//                 postfix++;
-//             }
-//             push(&s, *infix);
-//         }
+        //if is operator ie '+', '-', '*', '/'
+        else{
+            //while instead of if bcoz wanna pop out all those that are more than or eq precedence to *infix (ie wanna ev all of them first, eg inside stack have *,+, and *infix=='+')
+            while(!isEmptyStack(s) && lowerEqPrec(*infix,peek(s))){
+                *postfix=peek(s);
+                pop(&s);
+                postfix++;
+            }
+            push(&s, *infix);
+        }
 
-//         infix++;
-//     }
+        infix++;
+    }
 
-//     //no other operands left but stack not empty
-//     while (!isEmptyStack(s)){
-//         *postfix=peek(s);
-//         pop(&s);
-//         postfix++;
-//     }
+    //no other operands left but stack not empty
+    while (!isEmptyStack(s)){
+        *postfix=peek(s);
+        pop(&s);
+        postfix++;
+    }
 
-// }
+}
 
-// //my fn
-// int lowerEqPrec(char curCh, char topStackCh){
-//     char operators[]={'+', '*', '-', '/'};
-//     int curCh_i, topStackCh_i;
+//my fn
+int lowerEqPrec(char curCh, char topStackCh){
+    char operators[]={'+', '*', '-', '/'};
+    int curCh_i, topStackCh_i;
 
-//     if (topStackCh=='(')
-//         return 0;
+    if (topStackCh=='(')
+        return 0;
 
-//     for (int i=0; i< 4; i++){
-//         if (curCh==operators[i])
-//             curCh_i=i;
-//         if (topStackCh==operators[i])
-//             topStackCh_i=i;
-//     }
+    for (int i=0; i< 4; i++){
+        if (curCh==operators[i])
+            curCh_i=i;
+        if (topStackCh==operators[i])
+            topStackCh_i=i;
+    }
 
-//     if (curCh_i%2 <= topStackCh_i%2){
-//         return 1;}
-//     else return 0;
-// }
+    if (curCh_i%2 <= topStackCh_i%2){
+        return 1;}
+    else return 0;
+}
 
 
 // void push(Stack *sPtr, char item){
@@ -192,56 +192,56 @@
 //     return 0;
 // }
 
-// //may assume operands are single-digit #
-// double exePostfix(char* postfix)
-// {
-//     Stack s;
-//     s.head=NULL;
-//     s.size=0;
+//may assume operands are single-digit #
+double exePostfix(char* postfix)
+{
+    Stack s;
+    s.head=NULL;
+    s.size=0;
 
-//     double op1, op2;
+    double op1, op2;
 
-//     int len=strlen(postfix)-1;
+    int len=strlen(postfix)-1;
 
-//     while(len){
+    while(len){
 
-//         //if operand
-//         if(isdigit(*postfix)){
-//             push(&s,(double) (*postfix-'0'));
-//         }
-//         //if operator
-//         else{
-//             op2=peek(s);
-//             pop(&s);
-//             op1=peek(s);
-//             pop(&s);
-//             push(&s,evOperands(op1,op2,*postfix));
-//             // printf("\npeek=%lf\n",peek(s));
-//         }
-//         postfix++;
-//         len--;
+        //if operand
+        if(isdigit(*postfix)){
+            push(&s,(double) (*postfix-'0'));
+        }
+        //if operator
+        else{
+            op2=peek(s);
+            pop(&s);
+            op1=peek(s);
+            pop(&s);
+            push(&s,evOperands(op1,op2,*postfix));
+            // printf("\npeek=%lf\n",peek(s));
+        }
+        postfix++;
+        len--;
 
-//     }
-//     return peek(s);
-// }
-
-
-
-// double evOperands(double op1, double op2, char optr){
+    }
+    return peek(s);
+}
 
 
-//     switch (optr){
-//         case '+':
-//             return op1+op2;
-//         case '-':
-//             return op1-op2;
-//         case '*':
-//             return op1*op2;
-//         case '/':
-//             return op1/op2;
-//     }
-//     return -10000.0;
-// }
+
+double evOperands(double op1, double op2, char optr){
+
+
+    switch (optr){
+        case '+':
+            return op1+op2;
+        case '-':
+            return op1-op2;
+        case '*':
+            return op1*op2;
+        case '/':
+            return op1/op2;
+    }
+    return -10000.0;
+}
 
 
 
@@ -281,49 +281,49 @@
 // ---------------------------------------------------------------
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <ctype.h>
 
-#define SIZE 80 //The limit of expression length
+// #define SIZE 80 //The limit of expression length
 
-typedef struct _stackNode{
-    char item;
-    struct _stackNode *next;
-}StackNode;
+// typedef struct _stackNode{
+//     char item;
+//     struct _stackNode *next;
+// }StackNode;
 
-typedef struct _stack{
-   int size;
-   StackNode *head;
-}Stack;
+// typedef struct _stack{
+//    int size;
+//    StackNode *head;
+// }Stack;
 
-void push(Stack *sPtr, char item);
-int pop(Stack *sPtr);
-char peek(Stack s);
-int isEmptyStack(Stack s);
+// void push(Stack *sPtr, char item);
+// int pop(Stack *sPtr);
+// char peek(Stack s);
+// int isEmptyStack(Stack s);
 
-void in2Pre(char*, char*);
+// void in2Pre(char*, char*);
 
-//my fns
-void revString(char* str, char* revStr);
-int lowerPrec(char curCh, char topStackCh);
+// //my fns
+// void revString(char* str, char* revStr);
+// int lowerPrec(char curCh, char topStackCh);
 
 
-int main()
-{
-    char infix[SIZE];
-    char prefix[SIZE];
+// int main()
+// {
+//     char infix[SIZE];
+//     char prefix[SIZE];
 
-    printf("Enter an infix expression:\n");
-    fgets(infix,SIZE, stdin);
+//     printf("Enter an infix expression:\n");
+//     fgets(infix,SIZE, stdin);
 
-    in2Pre(infix,prefix);
-    printf("The prefix expression is \n");
-    printf("%s\n",prefix);
+//     in2Pre(infix,prefix);
+//     printf("The prefix expression is \n");
+//     printf("%s\n",prefix);
 
-    return 0;
-}
+//     return 0;
+// }
 
 void in2Pre(char* infix, char* prefix)
 {
@@ -440,35 +440,35 @@ int lowerPrec(char curCh, char topStackCh){
     else return 0;
 }
 
-//------
+// //------
 
-void push(Stack *sPtr, char item){
-    StackNode *newNode;
-    newNode = malloc(sizeof(StackNode));
-    newNode->item = item;
-    newNode->next = sPtr->head;
-    sPtr->head = newNode;
-    sPtr->size++;
-}
+// void push(Stack *sPtr, char item){
+//     StackNode *newNode;
+//     newNode = malloc(sizeof(StackNode));
+//     newNode->item = item;
+//     newNode->next = sPtr->head;
+//     sPtr->head = newNode;
+//     sPtr->size++;
+// }
 
-int pop(Stack *sPtr){
-    if(sPtr == NULL || sPtr->head == NULL){
-        return 0;
-    }
-    else{
-       StackNode *temp = sPtr->head;
-       sPtr->head = sPtr->head->next;
-       free(temp);
-       sPtr->size--;
-       return 1;
-    }
-}
+// int pop(Stack *sPtr){
+//     if(sPtr == NULL || sPtr->head == NULL){
+//         return 0;
+//     }
+//     else{
+//        StackNode *temp = sPtr->head;
+//        sPtr->head = sPtr->head->next;
+//        free(temp);
+//        sPtr->size--;
+//        return 1;
+//     }
+// }
 
-char peek(Stack s){
-    return s.head->item;
-}
+// char peek(Stack s){
+//     return s.head->item;
+// }
 
-int isEmptyStack(Stack s){
-     if(s.size == 0) return 1;
-     else return 0;
-}
+// int isEmptyStack(Stack s){
+//      if(s.size == 0) return 1;
+//      else return 0;
+// }
