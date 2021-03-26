@@ -245,11 +245,10 @@ int HashDelete(HashTable* Q1Ptr, int key)
 
 // // ------------------------------------------
 
-
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TABLESIZE 37
+#define TABLESIZE 3
 #define PRIME     13
 
 enum Marker {EMPTY,USED,DELETED};
@@ -384,7 +383,7 @@ int HashInsert(int key, HashSlot hashTable[])
 
 int HashDelete(int key, HashSlot hashTable[])
 {
-    int i,keycmp=0,delKeycmp;
+    int i,keycmp=0;
     
     for(i=0;i<TABLESIZE;i++){
         
@@ -403,6 +402,8 @@ int HashDelete(int key, HashSlot hashTable[])
                 hashTable[loc].indicator=DELETED;
                 return keycmp;
             }
+            if(i==TABLESIZE-1)
+                return -1;
         }
         //DELETED (to check if key's still at the back)
         else{
@@ -411,6 +412,5 @@ int HashDelete(int key, HashSlot hashTable[])
                 return -1;
         }
     }
-    return -1; 
+    return  TABLESIZE+1;
 }
-
