@@ -671,3 +671,221 @@ double evOperands(double op1, double op2, char optr){
 //     }
 // }
 
+// ------ correct createExp
+
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+
+// #define SIZE 200 //The number digit limitation
+
+// typedef struct _btnode{
+// 	int item;
+// 	struct _btnode *left;
+// 	struct _btnode *right;
+// } BTNode;   // You should not change the definition of BTNode
+
+// typedef struct _node{
+//      BTNode* item;
+//      struct _node *next;
+// }StackNode;
+
+// typedef struct _stack{
+//    int size;
+//    StackNode *head;
+// }Stack;
+
+// void deleteTree(BTNode **root);
+
+// void createExpTree(BTNode** root,char* prefix);
+// void printTree(BTNode *node);
+// void printTreePostfix(BTNode *node);
+// double computeTree(BTNode *node);
+
+// void push(Stack *sPtr,  BTNode* item);
+// int pop(Stack *sPtr);
+// BTNode *peek(Stack s);
+// int isEmptyStack(Stack s);
+
+// //my fn
+double evOperands(double op1, double op2, char optr);
+
+// int main()
+// {
+//     char prefix[SIZE];
+//     BTNode* root=NULL;
+
+//     //printf("Enter an prefix expression:\n");
+//     gets(prefix);
+
+//     createExpTree(&root, prefix);
+
+//     // printf("The Infix Expression:\n");
+//     printTree(root);
+//     printf("\n");
+//     //printf("The Postfix (Reverse Polish) Expression:\n");
+//     printTreePostfix(root);
+//     printf("\n");
+//     //printf("Answer ");
+//     printf("%.2f\n", computeTree(root));
+//     deleteTree(&root);
+//     return 0;
+// }
+
+void createExpTree(BTNode** root,char* prefix)
+{
+    Stack s;
+    s.head=NULL;
+    s.size=0;
+    
+    char *op=strtok(prefix, " ");
+    
+    BTNode *temp;
+
+    //push root to the stack
+    *root=malloc(sizeof(BTNode));
+    (*root)->left=NULL;
+    (*root)->right=NULL;
+    push(&s,*root);
+
+    while (op!=NULL)
+    {
+        temp=peek(s);
+        pop(&s);
+        if (op[0] == '*' || op[0] == '/' || op[0] == '+' || op[0] == '-')
+        {
+            temp->item = op[0];
+            temp->left = malloc(sizeof(BTNode));
+            temp->right = malloc(sizeof(BTNode));
+
+            temp->left->left = NULL;
+            temp->left->right = NULL;
+
+            temp->right->left = NULL;
+            temp->right->right = NULL;
+
+            push(&s, temp->right);
+            push(&s, temp->left);
+        }
+        else{
+            temp->item = atoi(op);
+        }
+
+        op = strtok(NULL, " ");
+    }
+}
+
+void printTree(BTNode *node){
+    //base, ie leaf node
+    if(node==NULL)
+        return;
+
+    //left
+    printTree(node->left);
+
+    //cur
+    if(node->left == NULL && node->right==NULL) //leaf node operand
+        printf("%d ",node->item);
+    else
+        printf("%c ",(char)(node->item));
+
+    //right
+    printTree(node->right);
+}
+
+void printTreePostfix(BTNode *node){
+   //base, ie leaf node
+    if(node==NULL)
+        return;
+
+    //left
+    printTreePostfix(node->left);
+
+    //right
+    printTreePostfix(node->right);
+
+    //cur
+    if(node->left == NULL && node->right==NULL) //leaf node operand
+        printf("%d ",node->item);
+    else
+        printf("%c ",(char)(node->item));
+}
+
+//post-order
+double computeTree(BTNode *node){
+
+    double l, r;
+
+    if(node==NULL)
+        return 0.0;
+
+    l=computeTree(node->left);
+    r=computeTree(node->right);
+
+    if(node->left==NULL && node->right==NULL)
+        return node->item;
+    else
+        return evOperands(l,r,node->item);
+
+}
+
+//---
+
+double evOperands(double op1, double op2, char optr){
+
+
+    switch (optr){
+        case '+':
+            return op1+op2;
+        case '-':
+            return op1-op2;
+        case '*':
+            return op1*op2;
+        case '/':
+            return op1/op2;
+    }
+    return -10000.0;
+}
+
+// void push(Stack *sPtr, BTNode *item){
+//     StackNode *newNode;
+//     newNode = malloc(sizeof(StackNode));
+//     newNode->item = item;
+//     newNode->next = sPtr->head;
+//     sPtr->head = newNode;
+//     sPtr->size++;
+// }
+
+// int pop(Stack *sPtr){
+//     if(sPtr == NULL || sPtr->head == NULL){
+//         return 0;
+//     }
+//     else{
+//        StackNode *temp = sPtr->head;
+//        sPtr->head = sPtr->head->next;
+//        free(temp);
+//        sPtr->size--;
+//        return 1;
+//     }
+// }
+
+// BTNode *peek(Stack s){
+//     return s.head->item;
+// }
+
+// int isEmptyStack(Stack s){
+//      if(s.size == 0) return 1;
+//      else return 0;
+// }
+
+// void deleteTree(BTNode **root){
+//     BTNode* temp;
+//     if(*root !=NULL)
+//     {
+//         temp = (*root)->right;
+//         deleteTree(&((*root)->left));
+//         free(*root);
+//         *root = NULL;
+//         deleteTree(&temp);
+//     }
+// }
