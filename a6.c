@@ -560,3 +560,43 @@ int HashFind(int key, HashSlot hashTable[])
     return -1;
 }
 
+
+//----------------------------
+//mcq
+
+#include <stdio.h>
+
+int ProcessArray(int *listA,int x,int n){
+    int i,k,j;
+    i=0;
+    j=n-1;
+    
+    do{
+        k=(i+j)/2;
+        if(x<=listA[k])
+            j=k-1;
+        if(listA[k]<=x)
+            i=k+1;
+    }while(i<=j);
+    
+    if(listA[k]==x)
+        return k;
+        
+    else 
+        return -1;
+}
+
+int main(){
+    int x, listA[7]={1,3,4,5,6,10,20};
+    printf("Enter x: ");
+    scanf("%d",&x);
+    
+    while(x!=-1000){
+        printf("Ans: %d\n",ProcessArray(listA,x,7));
+        printf("Enter x: ");
+        scanf("%d",&x);
+    }
+    
+    return 1;
+}
+
