@@ -1,3 +1,6 @@
+// //coding
+// // q1
+
 // #include <stdio.h>
 // #include <stdlib.h>
 
@@ -245,6 +248,9 @@ int HashDelete(HashTable* Q1Ptr, int key)
 
 // // ------------------------------------------
 
+
+// // q2
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -419,6 +425,8 @@ int HashDelete(int key, HashSlot hashTable[])
 
 // ----------------------------------------
 
+// // q3
+
 // #include <stdio.h>
 // #include <stdlib.h>
 
@@ -564,7 +572,7 @@ int HashFind(int key, HashSlot hashTable[])
 //----------------------------
 //mcq
 
-#include <stdio.h>
+// #include <stdio.h>
 
 int ProcessArray(int *listA,int x,int n){
     int i,k,j;
@@ -586,17 +594,17 @@ int ProcessArray(int *listA,int x,int n){
         return -1;
 }
 
-int main(){
-    int x, listA[7]={1,3,4,5,6,10,20};
-    printf("Enter x: ");
-    scanf("%d",&x);
+// int main(){
+//     int x, listA[7]={1,3,4,5,6,10,20};
+//     printf("Enter x: ");
+//     scanf("%d",&x);
     
-    while(x!=-1000){
-        printf("Ans: %d\n",ProcessArray(listA,x,7));
-        printf("Enter x: ");
-        scanf("%d",&x);
-    }
+//     while(x!=-1000){
+//         printf("Ans: %d\n",ProcessArray(listA,x,7));
+//         printf("Enter x: ");
+//         scanf("%d",&x);
+//     }
     
-    return 1;
-}
+//     return 1;
+// }
 
