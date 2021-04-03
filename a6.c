@@ -251,97 +251,97 @@ int HashDelete(HashTable* Q1Ptr, int key)
 
 // // q2
 
-#include <stdio.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <stdlib.h>
 
-#define TABLESIZE 3
-#define PRIME     13
+// #define TABLESIZE 37
+// #define PRIME     13
 
-enum Marker {EMPTY,USED,DELETED};
+// enum Marker {EMPTY,USED,DELETED};
 
-typedef struct _slot{
-    int key;
-    enum Marker indicator;
-} HashSlot;
+// typedef struct _slot{
+//     int key;
+//     enum Marker indicator;
+// } HashSlot;
 
-int HashInsert(int key, HashSlot hashTable[]);
-int HashDelete(int key, HashSlot hashTable[]);
+// int HashInsert(int key, HashSlot hashTable[]);
+// int HashDelete(int key, HashSlot hashTable[]);
 
 
-int hash1(int key);
-int hash2(int key);
+// int hash1(int key);
+// int hash2(int key);
 
-int main()
-{
-    int opt;
-    int i;
-    int key;
-    int comparison;
-    HashSlot hashTable[TABLESIZE];
+// int main()
+// {
+//     int opt;
+//     int i;
+//     int key;
+//     int comparison;
+//     HashSlot hashTable[TABLESIZE];
 
-    for(i=0;i<TABLESIZE;i++){
-        hashTable[i].indicator = EMPTY;
-        hashTable[i].key = 0;
-    }
+//     for(i=0;i<TABLESIZE;i++){
+//         hashTable[i].indicator = EMPTY;
+//         hashTable[i].key = 0;
+//     }
 
-    printf("============= Hash Table ============\n");
-    printf("|1. Insert a key to the hash table  |\n");
-    printf("|2. Delete a key from the hash table|\n");
-    printf("|3. Print the hash table            |\n");
-    printf("|4. Quit                            |\n");
-    printf("=====================================\n");
-    printf("Enter selection: ");
-    scanf("%d",&opt);
-    while(opt>=1 && opt <=3){
-        switch(opt){
-        case 1:
-            printf("Enter a key to be inserted:\n");
-            scanf("%d",&key);
-            comparison = HashInsert(key,hashTable);
-            if(comparison <0)
-                printf("Duplicate key\n");
-            else if(comparison < TABLESIZE)
-                printf("Insert: %d Key Comparisons: %d\n",key, comparison);
-            else
-                printf("Key Comparisons: %d. Table is full.\n",comparison);
-            break;
-        case 2:
-            printf("Enter a key to be deleted:\n");
-            scanf("%d",&key);
-            comparison = HashDelete(key,hashTable);
-            if(comparison <0)
-                printf("%d does not exist.\n", key);
-            else if(comparison <= TABLESIZE)
-                printf("Delete: %d Key Comparisons: %d\n",key, comparison);
-            else
-                printf("Error\n");
-            break;
-        case 3:
-            for(i=0;i<TABLESIZE;i++) printf("%d: %d %c\n",i, hashTable[i].key,hashTable[i].indicator==DELETED?'*':' ');
-            break;
-        }
-        printf("Enter selection: ");
-        scanf("%d",&opt);
-    }
-    return 0;
-}
+//     printf("============= Hash Table ============\n");
+//     printf("|1. Insert a key to the hash table  |\n");
+//     printf("|2. Delete a key from the hash table|\n");
+//     printf("|3. Print the hash table            |\n");
+//     printf("|4. Quit                            |\n");
+//     printf("=====================================\n");
+//     printf("Enter selection: ");
+//     scanf("%d",&opt);
+//     while(opt>=1 && opt <=3){
+//         switch(opt){
+//         case 1:
+//             printf("Enter a key to be inserted:\n");
+//             scanf("%d",&key);
+//             comparison = HashInsert(key,hashTable);
+//             if(comparison <0)
+//                 printf("Duplicate key\n");
+//             else if(comparison < TABLESIZE)
+//                 printf("Insert: %d Key Comparisons: %d\n",key, comparison);
+//             else
+//                 printf("Key Comparisons: %d. Table is full.\n",comparison);
+//             break;
+//         case 2:
+//             printf("Enter a key to be deleted:\n");
+//             scanf("%d",&key);
+//             comparison = HashDelete(key,hashTable);
+//             if(comparison <0)
+//                 printf("%d does not exist.\n", key);
+//             else if(comparison <= TABLESIZE)
+//                 printf("Delete: %d Key Comparisons: %d\n",key, comparison);
+//             else
+//                 printf("Error\n");
+//             break;
+//         case 3:
+//             for(i=0;i<TABLESIZE;i++) printf("%d: %d %c\n",i, hashTable[i].key,hashTable[i].indicator==DELETED?'*':' ');
+//             break;
+//         }
+//         printf("Enter selection: ");
+//         scanf("%d",&opt);
+//     }
+//     return 0;
+// }
 
-int hash1(int key)
-{
-    return (key % TABLESIZE);
-}
+// int hash1(int key)
+// {
+//     return (key % TABLESIZE);
+// }
 
-//incremental hash function for double hashing
-int hash2(int key)
-{
-    return (key % PRIME) + 1;
-}
+// //incremental hash function for double hashing
+// int hash2(int key)
+// {
+//     return (key % PRIME) + 1;
+// }
 
 // Inserting a duplicate key will return -1.
 //if table full return h
 int HashInsert(int key, HashSlot hashTable[])
 {
-    int i,keycmp=0,insAtD=-100,insAtD_keycmp;
+    int i,keycmp=0,insAtD=-100,insAtD_keycmp=1000;
     
     for(i=0;i<TABLESIZE;i++){
         
@@ -349,6 +349,9 @@ int HashInsert(int key, HashSlot hashTable[])
         int loc=hash1(key+(i*hash2(key)));
         
         if(hashTable[loc].indicator==EMPTY){
+//            insert at first deleted slot if have
+            if (insAtD!=-100)
+                break;
             hashTable[loc].key=key;
             hashTable[loc].indicator=USED;
             return keycmp;
@@ -369,17 +372,15 @@ int HashInsert(int key, HashSlot hashTable[])
                 insAtD_keycmp=keycmp;
             }
         }
-        
-
-    }
-    if (insAtD!=-100){
-        hashTable[insAtD].key=key;
-        hashTable[insAtD].indicator=USED;
-        return insAtD_keycmp;
     }
     
+    //insert at first deleted slot if have
+    if(insAtD_keycmp<TABLESIZE && insAtD!=-100){
+        hashTable[insAtD].key=key;
+        hashTable[insAtD].indicator=USED;
+        return keycmp;
+    }
     return keycmp; //full
-
 }
 
 //if slot is empty return -1 ie if delete key dont exist return -1
@@ -420,7 +421,6 @@ int HashDelete(int key, HashSlot hashTable[])
     }
     return  TABLESIZE+1;
 }
-
 
 
 // ----------------------------------------
