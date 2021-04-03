@@ -341,7 +341,7 @@ int HashDelete(HashTable* Q1Ptr, int key)
 //if table full return h
 int HashInsert(int key, HashSlot hashTable[])
 {
-    int i,keycmp=0,insAtD=-100,insAtD_keycmp=1000;
+    int i,keycmp=0,insAtD=-100;
     
     for(i=0;i<TABLESIZE;i++){
         
@@ -349,7 +349,7 @@ int HashInsert(int key, HashSlot hashTable[])
         int loc=hash1(key+(i*hash2(key)));
         
         if(hashTable[loc].indicator==EMPTY){
-//            insert at first deleted slot if have
+            // insert at first deleted slot encountered
             if (insAtD!=-100)
                 break;
             hashTable[loc].key=key;
@@ -367,10 +367,9 @@ int HashInsert(int key, HashSlot hashTable[])
         //DELETED
         else{
             //encounter the first deleted slot
-            if (insAtD==-100){
+            if (insAtD==-100)
                 insAtD=loc;
-                insAtD_keycmp=keycmp;
-            }
+            
         }
     }
     
