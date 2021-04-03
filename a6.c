@@ -374,7 +374,7 @@ int HashInsert(int key, HashSlot hashTable[])
     }
     
     //insert at first deleted slot if have
-    if(insAtD_keycmp<TABLESIZE && insAtD!=-100){
+    if(insAtD!=-100){
         hashTable[insAtD].key=key;
         hashTable[insAtD].indicator=USED;
         return keycmp;
