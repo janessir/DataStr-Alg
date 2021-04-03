@@ -349,7 +349,7 @@ int HashInsert(int key, HashSlot hashTable[])
         int loc=hash1(key+(i*hash2(key)));
         
         if(hashTable[loc].indicator==EMPTY){
-            // insert at first deleted slot encountered
+            // insert back at the first deleted slot prev encountered
             if (insAtD!=-100)
                 break;
             hashTable[loc].key=key;
