@@ -437,6 +437,7 @@ int CC (Graph g)
 
 // ------------------------------------------------------------------------------------
 
+// question 3
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -506,140 +507,64 @@ int main()
 
 void sumToC(LinkedList* ll, int C, ArrayList* al)
 {
-    int i,j,k,count;
-    ListNode *cur,*pre;
+    int i,j,k;
+    ListNode *cur;
     
     
     for(i=1;i<=C;i++){
+        
+        removeAllItems(ll);
+        
         //creating first listnode
-        ll->head=malloc(sizeof(ListNode));
-        ll->head->item=i;
-        ll->head->next=NULL;
-        ll->size=1;
+        insertNode(ll,0,i);
         
         ll->sum=i;
         
         //ie the last element == C
         if(ll->sum==C){
-            insertToArrList(ll,al);
+            cur=findNode(*ll,0);
+            while(cur!=NULL){
+                printf("%d\n",cur->item);
+                cur=cur->next;
+            }
             return;
         }
         
         //check
-        for(j=i+1;j<=C;j++){
+        k=i+1;
+        while(k!=C){
+            insertNode(ll,ll->size,k++);
+            
+            //found a permutation
             if(ll->sum==C){
-                insertToArrList(ll,al);
-                //backtrack by 2 steps
-                
-                if(ll->size==2)
+                cur=findNode(*ll,0);
+                while(cur!=NULL){
+                    printf("%d ",cur->item);
+                    cur=cur->next;
+                }
+                printf("\n");
+                //backtrack by 2 steps to search rest
+                removeNode(ll,ll->size-1);
+                removeNode(ll,ll->size-1);
+                k-=1;
+                if(k==C-1)
                     break;
-                
-                //else
-                //backtrack by 2 steps
-                count=0;
-                pre=ll->head;
-                for(k=0;k<ll->size-3;k++)
-                    pre=pre->next;
-                count+=pre->next->next->item;
-                free(pre->next->next);
-                count+=pre->next->item;
-                free(pre->next);
-                pre->next=NULL;
-                ll->sum-=count;
-                ll->size-=2;
-                
-                //create and add listnode to ll
-                cur=ll->head;
-                while(cur->next!=NULL)
-                    cur=cur->next;
-                cur->next=malloc(sizeof(ListNode));
-                cur->next->next=NULL;
-                cur->next->item=j;
-                
-                
-            }
-            else if(ll->sum<C){
-                //create and add listnode to ll
-                cur=ll->head;
-                while(cur->next!=NULL)
-                    cur=cur->next;
-                cur->next=malloc(sizeof(ListNode));
-                cur->next->next=NULL;
-                cur->next->item=j;
-            }
-            else{
-                if(ll->size==2)
-                    break;
-                
-                //else
-                //backtrack by 2 steps
-                count=0;
-                pre=ll->head;
-                for(k=0;k<ll->size-3;k++)
-                    pre=pre->next;
-                count+=pre->next->next->item;
-                free(pre->next->next);
-                count+=pre->next->item;
-                free(pre->next);
-                pre->next=NULL;
-                ll->sum-=count;
-                ll->size-=2;
-                
-                //create and add listnode to ll
-                cur=ll->head;
-                while(cur->next!=NULL)
-                    cur=cur->next;
-                cur->next=malloc(sizeof(ListNode));
-                cur->next->next=NULL;
-                cur->next->item=j;
             }
             
-            ll->sum+=j;
+            else if(ll->sum<C){
+                continue;
+            }
+                
+            //ll->size>C
+            else{
+                //backtrack by 2 steps
+                removeNode(ll,ll->size-1);
+                removeNode(ll,ll->size-1);
+                k-=1;
+            }
         }
-        
-    }
-    
-}
-
-void insertToArrList(LinkedList* ll, ArrayList* al){
-    int k;
-    ListNode *cur;
-    ArrayNode *tail;
-    
-    ArrayNode an;
-    an.itemArray=NULL;
-    an.next=NULL;
-    an.sizeArray=0;
-    
-    //trf items in LL to arraynode
-    an.sizeArray=ll->size;
-    cur=ll->head;
-    k=0;
-    while(cur!=NULL){
-        an.itemArray[k++]=cur->item;
-        cur=cur->next;
-    }
-    an.next=NULL;
-    
-    al->size+=1;
-    if(al->head==NULL)
-        al->head=&an;
-    else{
-        tail=al->head;
-        while(tail->next!=NULL)
-            tail=tail->next;
-        tail->next=&an;
     }
 }
-//ArrayNode* temp;
-//int i,j;
-//temp = al.head;
-//for(i=0;i<al.size;i++){
-//    for(j=0;j<temp->sizeArray;j++)
-//        printf(" %d ",temp->itemArray[j]);
-//    printf("\n");
-//    temp = temp->next;
-//}
 
 
 
@@ -750,3 +675,5 @@ void removeAllItems(LinkedList *ll)
     ll->size = 0;
     ll->sum =0;
 }
+
+
