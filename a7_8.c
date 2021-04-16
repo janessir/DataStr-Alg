@@ -522,31 +522,29 @@ void sumToC(LinkedList* ll, int C, ArrayList* al)
         
         //ie the last element == C
         if(ll->sum==C){
-            cur=findNode(*ll,0);
-            while(cur!=NULL){
-                printf("%d\n",cur->item);
-                cur=cur->next;
-            }
+            insertToArrList(ll,al);
             return;
         }
         
         //check
+        j=i+1;
         k=i+1;
         while(k!=C){
+            
+            if(k==C-1)
+                j++;
+            
             insertNode(ll,ll->size,k++);
             
             //found a permutation
             if(ll->sum==C){
-                cur=findNode(*ll,0);
-                while(cur!=NULL){
-                    printf("%d ",cur->item);
-                    cur=cur->next;
-                }
-                printf("\n");
+                insertToArrList(ll,al);
+                
                 //backtrack by 2 steps to search rest
                 removeNode(ll,ll->size-1);
                 removeNode(ll,ll->size-1);
-                k-=1;
+                k=j+1;
+                j++;
                 if(k==C-1)
                     break;
             }
@@ -566,7 +564,42 @@ void sumToC(LinkedList* ll, int C, ArrayList* al)
     }
 }
 
-
+void insertToArrList(LinkedList* ll, ArrayList* al){
+   
+    int i=0;
+    ListNode *cur=ll->head;
+    ArrayNode *tempAn;
+    
+    //first seq found
+    if(al->size==0){
+        al->head=malloc(sizeof(ArrayNode));
+        al->head->itemArray=malloc(ll->size*sizeof(int));
+        while(cur!=NULL){
+            al->head->itemArray[i++]=cur->item;
+            cur=cur->next;
+        }
+        al->head->sizeArray=ll->size;
+        al->head->next=NULL;
+    }
+    
+    //subsequent seq
+    else{
+        tempAn=al->head;
+        while(tempAn->next!=NULL)
+            tempAn=tempAn->next;
+        
+        tempAn->next=malloc(sizeof(ArrayNode*));
+        tempAn->next->itemArray=malloc(ll->size*sizeof(int));
+        while(cur!=NULL){
+            tempAn->next->itemArray[i++]=cur->item;
+            cur=cur->next;
+        }
+        tempAn->next->sizeArray=ll->size;
+        tempAn->next->next=NULL;
+    }
+    
+    al->size++;
+}
 
 ///////////////////////////////////////////////////////
 int insertNode(LinkedList *ll, int index, int value){
