@@ -695,3 +695,381 @@ void insertToArrList(LinkedList* ll, ArrayList* al){
 //     ll->size = 0;
 //     ll->sum =0;
 // }
+
+
+// question 4
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct _listnode
+{
+    int vertex;
+    struct _listnode *next;
+} ListNode;
+typedef ListNode StackNode;
+
+typedef struct _graph{
+    int V;
+    int E;
+    int **matrix;;
+    int *arr;
+}Graph;
+
+typedef ListNode QueueNode;
+
+typedef struct _queue{
+   int size;
+   QueueNode *head;
+   QueueNode *tail;
+} Queue;
+
+typedef struct _stack
+{
+    int size;
+    StackNode *head;
+} Stack;
+
+void insertAdjVertex(ListNode** AdjList,int vertex);
+void removeAdjVertex(ListNode** AdjList,int vertex);
+int matching(Graph *g);
+void printGraphMatrix(Graph );
+int dfs(Graph* g, int s, int t);
+void printGraphArray(Graph g,int size);
+int insertToAr(Graph *g,int parent[],int t);
+
+void enqueue(Queue *qPtr, int item);
+int dequeue(Queue *qPtr);
+int getFront(Queue q);
+int isEmptyQueue(Queue q);
+void removeAllItemsFromQueue(Queue *qPtr);
+void printQ(QueueNode *cur);
+//////STACK///////////////////////////////////////////
+void push(Stack *sPtr, int vertex);
+int pop(Stack *sPtr);
+int peek(Stack s);
+int isEmptyStack(Stack s);
+void removeAllItemsFromStack(Stack *sPtr);
+//////////////////////////////////
+
+int main()
+{
+    int Prj, Std, Mtr; //Project, Student and Mentor;
+    int maxMatch;
+    scanf("%d %d %d", &Std, &Prj, &Mtr);
+
+    int np,nm; //number of projects and number of mentors
+    int pi=0,si=Prj,si2=Prj+Std, mi=Prj+Std+Std; //starting index of project, student, mentor respectively
+    
+    //build graph
+    Graph g;
+    //Write your code
+        int i,j,k;
+
+    g.V=Prj+Std+Std+Mtr+2;
+    g.E = 0;
+    g.arr=NULL;
+    
+    //creating |V|x|V| matrix
+    g.matrix = (int **)malloc(g.V*sizeof(int *)); //creating the rows of the 2d matrix
+    for(i=0;i<g.V;i++)
+        g.matrix[i] = (int *)malloc(g.V*sizeof(int)); //creating the corresponding columns of the 2d matrix
+    
+    //initializing all the vertex as no links
+    for(i=0;i<g.V;i++)
+        for(j=0;j<g.V;j++)
+            g.matrix[i][j] = 0;
+
+    //establishing the links btw the nodes
+    int V1, V2;
+    for(i=0;i<Std;i++){
+        scanf("%d %d ",&np,&nm);
+        for(j=0;j<np;j++){
+            //input projects by students
+            scanf("%d ",&V1);
+            g.matrix[pi+V1-1][si+i]=1;
+            g.E++;
+        }
+        //input mentors by students
+        for(j=0;j<nm;j++){
+            scanf("%d",&V2);
+            g.matrix[si2+i][mi+V2-1]=1;
+            g.E+=2;
+        }
+    }
+    //links btw the 2 student bipartite
+    for(k=0;k<Std;k++){
+        g.matrix[si+k][si2+k]=1;
+        g.E++;
+    }
+    //links from source
+    for(k=0;k<Prj;k++){
+        g.matrix[g.V-2][k]=1;
+        g.E++;
+    }
+    //links to sink
+    for(k=0;k<Mtr;k++){
+        g.matrix[mi+k][g.V-1]=1;
+        g.E++;
+    }
+    
+    
+    printGraphMatrix(g);
+    
+//    apply Ford Fulkerson algorithm
+//     use DFS or BFS to find a path
+    maxMatch = matching(&g);
+    printf("%d\n", maxMatch);
+    return 0;
+}
+
+int matching(Graph *g)
+{
+    int i,maxMatch=0;
+    //while finding a path from s->t
+    printf("\n---------------------------------------------------\n");
+    
+    int count=dfs(g,g->V-2,g->V-1);
+    while(count){
+        printGraphArray(*g,count);
+        for(i=0;i<count-1;i++){
+            g->matrix[g->arr[i]][g->arr[i+1]]=0;
+            g->matrix[g->arr[i+1]][g->arr[i]]=1;
+        }
+        printGraphMatrix(*g);
+        free(g->arr);
+        maxMatch++;
+        count=dfs(g,g->V-2,g->V-1);
+    }
+    if(maxMatch)
+        return maxMatch;
+    return 0;
+}
+
+// s: source indec, t: sink index
+int dfs(Graph *g, int s, int t){
+
+    int a,n,m;
+
+    Stack y;
+    y.head=NULL;
+    y.size=0;
+    
+    int visited[g->V];
+    int parent[g->V];
+    
+    for(int l=0;l<g->V;l++){
+        visited[l]=0;
+        parent[l]=0;
+    }
+    //push s to stack
+    push(&y,s);
+    visited[s]=1;
+    parent[s]=-1;
+    while(!isEmptyStack(y)){
+        a=-1;
+        n=peek(y);
+//        pop(&y);
+        if(n==t){
+//            removeAllItemsFromStack(&y);
+            return insertToAr(g,parent,t);
+        }
+        for(m=g->V-1;m>=0;m--){
+            if(g->matrix[n][m]==1 && visited[m]!=1){
+                a=m;
+                break;
+            }
+        }
+        if(a!=-1){
+            push(&y,a);
+            visited[a]=1;
+            parent[a]=n;
+            continue;
+        }
+        else{
+            pop(&y);
+        }
+    }
+    return 0;
+}
+
+int insertToAr(Graph *g,int parent[g->V],int t){
+    
+    Stack z;
+    z.head=NULL;
+    z.size=0;
+    
+    int count=0;
+    
+    int c=t;
+    push(&z,t);
+    count++;
+    while(parent[c]!=-1){
+        push(&z,parent[c]);
+        c=parent[c];
+        count++;
+    }
+    g->arr=malloc(count*sizeof(int));
+    for(int i=0;i<count;i++){
+        g->arr[i]=peek(z);
+        pop(&z);
+    }
+    
+    printGraphArray(*g,count);
+    
+    return count;
+}
+
+void printGraphArray(Graph g,int size){
+    printf("hi\n");
+    for(int i=0;i<size;i++)
+        printf("%d ",g.arr[i]);
+    
+    printf("\n");
+}
+
+void printGraphMatrix(Graph g)
+{
+    int i,j;
+    for(i=0;i<g.V;i++){
+        for(j=0;j<g.V;j++)
+            printf("%d\t",g.matrix[i][j]);
+        printf("\n");
+    }
+}
+
+
+void removeAdjVertex(ListNode** AdjList,int vertex)
+{
+    ListNode *temp, *preTemp;
+    if(*AdjList != NULL)
+    {
+        if((*AdjList)->vertex ==vertex){//first node
+            temp = *AdjList;
+            *AdjList = (*AdjList)->next;
+            free(temp);
+            return;
+        }
+        preTemp = *AdjList;
+        temp = (*AdjList)->next;
+        while(temp!=NULL && temp->vertex != vertex)
+        {
+            preTemp= temp;
+            temp = temp->next;
+        }
+        preTemp->next = temp->next;
+        free(temp);
+    }
+
+}
+void insertAdjVertex(ListNode** AdjList,int vertex)
+{
+    ListNode *temp;
+    if(*AdjList==NULL)
+    {
+        *AdjList = (ListNode *)malloc(sizeof(ListNode));
+        (*AdjList)->vertex = vertex;
+        (*AdjList)->next = NULL;
+    }
+    else{
+        temp = (ListNode *)malloc(sizeof(ListNode));
+        temp->vertex = vertex;
+        temp->next = *AdjList;
+        *AdjList = temp;
+    }
+}
+void enqueue(Queue *qPtr, int vertex) {
+    QueueNode *newNode;
+    newNode = malloc(sizeof(QueueNode));
+    if(newNode==NULL) exit(0);
+
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+
+    if(isEmptyQueue(*qPtr))
+        qPtr->head=newNode;
+    else
+        qPtr->tail->next = newNode;
+
+    qPtr->tail = newNode;
+    qPtr->size++;
+}
+
+int dequeue(Queue *qPtr) {
+    if(qPtr==NULL || qPtr->head==NULL){ //Queue is empty or NULL pointer
+        return 0;
+    }
+    else{
+       QueueNode *temp = qPtr->head;
+       qPtr->head = qPtr->head->next;
+       if(qPtr->head == NULL) //Queue is emptied
+           qPtr->tail = NULL;
+
+       free(temp);
+       qPtr->size--;
+       return 1;
+    }
+}
+
+int getFront(Queue q){
+    return q.head->vertex;
+}
+
+int isEmptyQueue(Queue q) {
+    if(q.size==0) return 1;
+    else return 0;
+}
+
+void removeAllItemsFromQueue(Queue *qPtr)
+{
+    while(dequeue(qPtr));
+}
+
+void printQ(QueueNode *cur){
+    if(cur==NULL) printf("Empty");
+
+    while (cur != NULL){
+        printf("%d ", cur->vertex);
+        cur = cur->next;
+    }
+    printf("\n");
+}
+
+void push(Stack *sPtr, int vertex)
+{
+    StackNode *newNode;
+    newNode= malloc(sizeof(StackNode));
+    newNode->vertex = vertex;
+    newNode->next = sPtr->head;
+    sPtr->head = newNode;
+    sPtr->size++;
+}
+
+int pop(Stack *sPtr)
+{
+    if(sPtr==NULL || sPtr->head==NULL){
+        return 0;
+    }
+    else{
+       StackNode *temp = sPtr->head;
+       sPtr->head = sPtr->head->next;
+       free(temp);
+       sPtr->size--;
+       return 1;
+    }
+}
+
+int isEmptyStack(Stack s)
+{
+     if(s.size==0) return 1;
+     else return 0;
+}
+
+int peek(Stack s){
+    return s.head->vertex;
+}
+
+void removeAllItemsFromStack(Stack *sPtr)
+{
+    while(pop(sPtr));
+}
