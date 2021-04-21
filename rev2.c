@@ -135,4 +135,119 @@ int highEqPrec(char sOp, char cOp){
 
 // ---------------------------------------------------------------------------
 
+// lab 1 q2
+
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <ctype.h>
+
+// #define SIZE 80 //The limit of expression length
+
+// typedef struct _stackNode{
+//     double item;
+//     struct _stackNode *next;
+// }StackNode;
+
+// typedef struct _stack{
+//    int size;
+//    StackNode *head;
+// }Stack;
+
+// void push(Stack *sPtr, double item);
+// int pop(Stack *sPtr);
+// double peek(Stack s);
+// int isEmptyStack(Stack s);
+
+// double exePostfix(char*);
+
+// int main()
+// {
+//     char postfix[SIZE];
+
+//     printf("Enter a postfix expression:\n");
+//     fgets(postfix,SIZE,stdin);
+//     char* p=strchr(postfix,'\n');
+//     *p='\0';
+
+//     printf("The answer is %.2lf.\n",exePostfix(postfix));
+
+//     return 0;
+// }
+
+
+double exePostfix(char* postfix)
+{
+    double a, b;
+	int len=strlen(postfix),i=0;
+	Stack s;
+	s.head=NULL;
+	s.size=0;
+
+	while(i<len){
+	    //if operand
+	    if(isdigit(*postfix)){
+	        push(&s,(double)(*postfix-'0'));
+	    }
+
+	    //if operator
+	    else{
+	        b=peek(s);
+	        pop(&s);
+	        a=peek(s);
+	        pop(&s);
+
+	        switch(*postfix){
+	            case '+':
+	                push(&s,a+b);
+	                break;
+	           case '-':
+	                push(&s,a-b);
+	                break;
+	           case '*':
+	                push(&s,a*b);
+	                break;
+	           case '/':
+	                push(&s,a/b);
+	                break;
+	        }
+	    }
+	    postfix++;
+	    i++;
+	}
+	return peek(s);
+}
+
+// void push(Stack *sPtr, double item){
+//     StackNode *newNode;
+//     newNode = malloc(sizeof(StackNode));
+//     newNode->item = item;
+//     newNode->next = sPtr->head;
+//     sPtr->head = newNode;
+//     sPtr->size++;
+// }
+
+// int pop(Stack *sPtr){
+//     if(sPtr == NULL || sPtr->head == NULL){
+//         return 0;
+//     }
+//     else{
+//        StackNode *temp = sPtr->head;
+//        sPtr->head = sPtr->head->next;
+//        free(temp);
+//        sPtr->size--;
+//        return 1;
+//     }
+// }
+
+// double peek(Stack s){
+//     return s.head->item;
+// }
+
+// int isEmptyStack(Stack s){
+//      if(s.size == 0) return 1;
+//      else return 0;
+// }
+
+// ---------------------------------------------------------------------------
 
